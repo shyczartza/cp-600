@@ -17,7 +17,7 @@ const apiFetch = async (url, method, body) => {
 };
 
 const initTodo = () => {
-  // INSERT handleTodoDelete HERE
+
 
   const renderTitle = ({ title, done }) => {
     if (!done) return title;
@@ -36,6 +36,14 @@ const initTodo = () => {
                 ${renderTitle({ title, done })}
             </div>
             <!-- INSERT DELETE BUTTON HERE -->
+            <a
+  style="color: red;"
+  href="#"
+  role="button"
+  onclick="handleTodoDelete(event, '${id}')"
+>
+  <i class="far fa-lg fa-trash-alt"></i>
+</a>
         </li>
     `;
   const noItems = `
@@ -83,6 +91,17 @@ const initTodo = () => {
     );
   };
   window.handleTodoChange = handleTodoChange;
+
+  // INSERT handleTodoDelete HERE
+  const handleTodoDelete = (ev, id) => {
+    ev.preventDefault();
+    const doDelete = async () => {
+      await apiFetch(`/todos/${id}`, "DELETE");
+      refreshList();
+    }
+    doDelete().catch(err => console.log("Error deleting todo", err));
+  };
+  window.handleTodoDelete = handleTodoDelete;
 
   const form = document.querySelector('#todo-form');
   form.onsubmit = (ev) => {

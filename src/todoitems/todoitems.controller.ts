@@ -28,7 +28,7 @@ function sanitizeTodo<T extends { title?: string }>(input: T): T {
 
 @Controller('todos')
 export class TodoitemsController {
-  constructor(private readonly todoitemsService: TodoitemsService) {}
+  constructor(private readonly todoitemsService: TodoitemsService) { }
 
   @Post()
   create(@Body() createTodoitemDto: CreateTodoitemDto) {
@@ -54,5 +54,8 @@ export class TodoitemsController {
   }
 
   // INSERT DELETE CODE HERE
-
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.todoitemsService.remove(id);
+  }
 }
